@@ -312,8 +312,56 @@ return [
         [
             'text' => 'Home',
             'url' => '/dashboard',
-            'icon' => 'far fa-fw fa-file',
+            'icon' => 'far fa-fw fa-home',
             'label_color' => 'success',
+        ],
+        [
+            'text' => 'Cliente',
+            'url' => '/clientes',
+            'icon' => 'fas fa-fw fa-user',
+            'label_color' => 'primary',
+        ],
+        [
+            'text' => 'Funcionário',
+            'url' => '/funcionarios',
+            'icon' => 'fas fa-fw fa-briefcase',
+            'label_color' => 'info',
+        ],
+        [
+            'text' => 'Usuários',
+            'url' => '/usuarios',
+            'icon' => 'fas fa-fw fa-users',
+            'label_color' => 'danger',
+        ],
+        [
+            'text' => 'Produto',
+            'url' => '/produtos',
+            'icon' => 'fas fa-fw fa-box',
+            'label_color' => 'warning',
+        ],
+        [
+            'text' => 'Estoque',
+            'url' => '/estoque',
+            'icon' => 'fas fa-fw fa-warehouse',
+            'label_color' => 'secondary',
+        ],
+        [
+            'text' => 'Venda',
+            'url' => '/vendas',
+            'icon' => 'fas fa-fw fa-shopping-cart',
+            'label_color' => 'success',
+        ],
+        [
+            'text' => 'Empresa',
+            'url' => '/empresas',
+            'icon' => 'fas fa-fw fa-building',
+            'label_color' => 'info',
+        ],
+        [
+            'text' => 'Configurações',
+            'url' => '/configuracoes',
+            'icon' => 'fas fa-fw fa-cogs',
+            'label_color' => 'dark',
         ],
         
         

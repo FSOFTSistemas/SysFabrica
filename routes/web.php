@@ -1,6 +1,12 @@
 <?php
 
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\EstoqueController;
+use App\Http\Controllers\FuncionarioController;
+use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VendaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,9 +21,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::resource('clientes', ClienteController::class);
+    Route::resource('funcionarios', FuncionarioController::class);
+    Route::resource('produtos', ProdutoController::class);
+    Route::resource('estoque', EstoqueController::class);
+    Route::resource('vendas', VendaController::class);
+    Route::resource('empresas', EmpresaController::class);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Auth::routes();
 
