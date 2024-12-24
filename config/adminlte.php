@@ -171,11 +171,11 @@ return [
     |
     */
 
-    'classes_auth_card' => 'card-outline card-primary',
-    'classes_auth_header' => '',
+    'classes_auth_card' => '',
+    'classes_auth_header' => 'bg-gradient-info',
     'classes_auth_body' => '',
-    'classes_auth_footer' => '',
-    'classes_auth_icon' => '',
+    'classes_auth_footer' => 'text-center',
+    'classes_auth_icon' => 'fa-lg text-info',
     'classes_auth_btn' => 'btn-flat btn-primary',
 
     /*
@@ -190,17 +190,17 @@ return [
     |
     */
 
-    'classes_body' => '',
-    'classes_brand' => '',
-    'classes_brand_text' => '',
-    'classes_content_wrapper' => '',
-    'classes_content_header' => '',
-    'classes_content' => '',
+    'classes_body' => 'hold-transition sidebar-mini layout-fixed',
+    'classes_brand' => 'bg-primary text-white',
+    'classes_brand_text' => 'text-light font-weight-bold',
+    'classes_content_wrapper' => 'content-wrapper bg-light',
+    'classes_content_header' => 'content-header bg-white shadow-sm',
+    'classes_content' => 'content p-3',
     'classes_sidebar' => 'sidebar-dark-primary elevation-4',
-    'classes_sidebar_nav' => '',
+    'classes_sidebar_nav' => 'nav-flat nav-child-indent',
     'classes_topnav' => 'navbar-white navbar-light',
-    'classes_topnav_nav' => 'navbar-expand',
-    'classes_topnav_container' => 'container',
+    'classes_topnav_nav' => 'navbar-expand-lg',
+    'classes_topnav_container' => 'container-fluid',
 
     /*
     |--------------------------------------------------------------------------
@@ -260,9 +260,10 @@ return [
     'dashboard_url' => 'home',
     'logout_url' => 'logout',
     'login_url' => 'login',
-    'register_url' => 'register',
-    'password_reset_url' => 'password/reset',
-    'password_email_url' => 'password/email',
+    'register_url' => false, //'register',
+    'password_reset_url' => false, //'password/reset',
+    'password_email_url' => false,
+    'password/email',
     'profile_url' => false,
     'disable_darkmode_routes' => false,
 
@@ -363,8 +364,8 @@ return [
             'icon' => 'fas fa-fw fa-cogs',
             'label_color' => 'dark',
         ],
-        
-        
+
+
     ],
 
     /*
