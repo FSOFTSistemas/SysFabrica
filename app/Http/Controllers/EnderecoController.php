@@ -28,7 +28,29 @@ class EnderecoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'logradouro' => 'required|string|max:255',
+            'numero' => 'required|string|max:50',
+            'bairro' => 'required|string|max:100',
+            'cidade' => 'required|string|max:100',
+            'estado' => 'required|string|max:100',
+            'cep' => 'required|string|max:20',
+        ]);
+
+        try {
+            $endereco = Endereco::create($validatedData);
+
+            return response()->json([
+                'success' => true,
+                'endereco' => $endereco,
+            ], 201); // Created status
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao salvar o endereço. Tente novamente.',
+                'error' => $e->getMessage(),
+            ], 500); // Internal Server Error
+        }
     }
 
     /**

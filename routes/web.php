@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\EstoqueController;
 use App\Http\Controllers\FuncionarioController;
 use App\Http\Controllers\ProdutoController;
@@ -28,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('estoque', EstoqueController::class);
     Route::resource('vendas', VendaController::class);
     Route::resource('empresas', EmpresaController::class);
+    Route::resource('enderecos', EnderecoController::class);
 });
 
 require __DIR__ . '/auth.php';
