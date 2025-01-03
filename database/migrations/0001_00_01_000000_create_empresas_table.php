@@ -17,14 +17,18 @@ return new class extends Migration
             $table->string('ie')->nullable();
             $table->string('razao_social');
             $table->string('nome_fantasia');
-            $table->unsignedBigInteger('endereco_id')->nullable();
+            $table->string('logradouro')->nullable();
+            $table->string('numero')->nullable();
+            $table->string('bairro')->nullable();
+            $table->string('cidade')->nullable();
+            $table->string('estado')->nullable();
+            $table->string('cep')->nullable();
             $table->enum('status', ['ativo', 'inativo'])->default('ativo');
             $table->date('data_vencimento')->nullable();
             $table->date('cliente_desde')->nullable();
             $table->string('path_logo')->nullable();
             $table->timestamps();
 
-            $table->foreign('endereco_id')->references('id')->on('enderecos')->onDelete('cascade');
         });
     }
 

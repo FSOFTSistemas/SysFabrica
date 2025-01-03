@@ -17,6 +17,7 @@ class Endereco extends Model
         'estado',
         'cep',
         'ibge',
+        'empresa_id',
     ];
 
     /**

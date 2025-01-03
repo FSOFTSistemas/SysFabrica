@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('vendas', VendaController::class);
     Route::resource('empresas', EmpresaController::class);
     Route::resource('enderecos', EnderecoController::class);
+    Route::get('endereco/{cep}', [EnderecoController::class, 'buscarEnderecoPorCep'])->name('buscarCep');
 });
 
 require __DIR__ . '/auth.php';

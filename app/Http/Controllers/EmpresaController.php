@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Empresa;
 use App\Models\Endereco;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Wavey\Sweetalert\Sweetalert;
 
 class EmpresaController extends Controller
 {
@@ -14,7 +16,7 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        $empresas = Empresa::with('endereco')->get();
+        $empresas = Empresa::all();
         return view('empresas.index', compact('empresas'));
     }
 
@@ -23,8 +25,7 @@ class EmpresaController extends Controller
      */
     public function create()
     {
-        $enderecos = Endereco::all();
-        return view('empresas.form', compact('enderecos'));
+        return view('empresas.form');
     }
 
     /**
@@ -32,25 +33,37 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'razao_social' => 'required|string|max:255',
-            'nome_fantasia' => 'required|string|max:255',
-            'endereco_id' => 'nullable|exists:enderecos,id',
-        ]);
+        try {
 
-        if ($validator->fails()) {
-            return redirect()->route('empresas.create')
-                        ->withErrors($validator)
-                        ->withInput();
+            $validatedData = $request->validate([
+                'cnpj' => 'required|unique:empresas',
+                'ie' => 'nullable|string|max:20',
+                'razao_social' => 'required|string|max:255',
+                'nome_fantasia' => 'nullable|string|max:255',
+                'status' => 'required|in:ativo,inativo',
+                'data_vencimento' => 'nullable|date',
+                'cliente_desde' => 'required|date',
+                'path_logo' => 'nullable|string|max:255',
+                'logradouro' => 'required|string|max:255',
+                'numero' => 'required|string|max:20',
+                'bairro' => 'required|string|max:100',
+                'cidade' => 'required|string|max:100',
+                'estado' => 'required|string|max:2',
+                'cep' => 'required|string|max:10',
+            ]);
+
+            DB::beginTransaction();
+            $empresa = Empresa::create($validatedData);
+
+            DB::commit();
+            Sweetalert::success('Empresa criada com sucesso!', 'Sucesso');
+            return redirect()->route('empresas.index')->with('success', 'Empresa criada com sucesso!');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            DB::rollBack();
+            Sweetalert::error('Empresa criada com sucesso!', 'Erro');
+            return redirect()->back()->withInput()->withErrors('error', $e->getMessage());
         }
-
-        Empresa::create([
-            'razao_social' => $request->razao_social,
-            'nome_fantasia' => $request->nome_fantasia,
-            'endereco_id' => $request->endereco_id,
-        ]);
-
-        return redirect()->route('empresas.index')->with('success', 'Empresa criada com sucesso!');
     }
 
     /**
@@ -66,7 +79,7 @@ class EmpresaController extends Controller
      */
     public function edit(Empresa $empresa)
     {
-        //
+        return view('empresas.form', compact('empresa'));
     }
 
     /**
@@ -74,25 +87,38 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, Empresa $empresa)
     {
-        $validator = Validator::make($request->all(), [
-            'razao_social' => 'required|string|max:255',
-            'nome_fantasia' => 'required|string|max:255',
-            'endereco_id' => 'nullable|exists:enderecos,id',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'cnpj' => 'required|unique:empresas,cnpj,' . $empresa->id,
+                'ie' => 'nullable|string|max:20',
+                'razao_social' => 'required|string|max:255',
+                'nome_fantasia' => 'nullable|string|max:255',
+                'status' => 'required|in:ativo,inativo',
+                'data_vencimento' => 'nullable|date',
+                'cliente_desde' => 'required|date',
+                'path_logo' => 'nullable|string|max:255',
+                'logradouro' => 'required|string|max:255',
+                'numero' => 'required|string|max:20',
+                'bairro' => 'required|string|max:100',
+                'cidade' => 'required|string|max:100',
+                'estado' => 'required|string|max:2',
+                'cep' => 'required|string|max:10',
+            ]);
 
-        if ($validator->fails()) {
-            return redirect()->route('empresas.edit', $empresa)
-                        ->withErrors($validator)
-                        ->withInput();
+            DB::beginTransaction();
+
+            $empresa->update($validatedData);
+
+            DB::commit();
+            Sweetalert::success('Empresa atualizada com sucesso!', 'Sucesso');
+            return redirect()->route('empresas.index')->with('success', 'Empresa atualizada com sucesso!');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd($e->getMessage());
+            Sweetalert::error('Erro ao atualizar a empresa!', 'Erro');
+            return redirect()->back()->withInput()->withErrors('error', $e->getMessage());
         }
-
-        $empresa->update([
-            'razao_social' => $request->razao_social,
-            'nome_fantasia' => $request->nome_fantasia,
-            'endereco_id' => $request->endereco_id,
-        ]);
-
-        return redirect()->route('empresas.index')->with('success', 'Empresa atualizada com sucesso!');
     }
 
 
@@ -102,7 +128,7 @@ class EmpresaController extends Controller
     public function destroy(Empresa $empresa)
     {
         $empresa->delete();
-
+        Sweetalert::success('Empresa deletada com sucesso!', 'Sucesso');
         return redirect()->route('empresas.index')->with('success', 'Empresa deletada com sucesso!');
     }
 }

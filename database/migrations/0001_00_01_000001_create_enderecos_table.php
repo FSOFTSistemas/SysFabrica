@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('estado');
             $table->string('cep');
             $table->string('ibge');
+            $table->unsignedBigInteger('empresa_id')->nullable(); 
+            $table->foreign('empresa_id')->references('id')->on('empresas')->onDelete('cascade');
             $table->timestamps();
         });
     }

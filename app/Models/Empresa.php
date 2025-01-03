@@ -14,18 +14,15 @@ class Empresa extends Model
         'ie',
         'razao_social',
         'nome_fantasia',
-        'endereco_id',
         'status',
         'data_vencimento',
         'cliente_desde',
         'path_logo',
+        'logradouro',
+        'numero',
+        'bairro',
+        'cidade',
+        'estado',
+        'cep',
     ];
-
-    /**
-     * Definindo o relacionamento com a tabela de Endereços.
-     */
-    public function endereco()
-    {
-        return $this->belongsTo(Endereco::class);
-    }
 }
