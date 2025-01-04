@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Endereco;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Wavey\Sweetalert\Sweetalert;
 
@@ -41,12 +42,14 @@ class EnderecoController extends Controller
         ]);
 
         try {
+            $validatedData['empresa_id'] = Auth::user()->empresa_id;
             $endereco = Endereco::create($validatedData);
+
 
             return response()->json([
                 'success' => true,
                 'endereco' => $endereco,
-            ], 201); 
+            ], 200); 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

@@ -1,209 +1,213 @@
 @extends('adminlte::page')
 
-@section('title', isset($cliente) ? 'Editar Cliente' : 'Criar Cliente')
+@section('title', isset($cliente) ? 'Editar Cliente' : 'Novo Cliente')
 
 @section('content_header')
-    <h1>{{ isset($cliente) ? 'Editar Cliente' : 'Criar Cliente' }}</h1>
+    {{-- <h4>{{ isset($cliente) ? 'Editar Cliente' : 'Cadastrar Novo Cliente' }}</h4> --}}
 @stop
 
 @section('content')
-
-    <div class="container">
-
-        <!-- Formulário de Cliente -->
-        <form action="{{ route('clientes.store') }}" method="POST">
-            @csrf
-
-            <div class="form-group">
-                <label for="razaoSocial">Razão Social</label>
-                <input type="text" class="form-control @error('razaoSocial') is-invalid @enderror" id="razaoSocial"
-                    name="razaoSocial" value="{{ old('razaoSocial') }}" required>
-                @error('razaoSocial')
-                    <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="nomeFantasia">Nome Fantasia</label>
-                <input type="text" class="form-control @error('nomeFantasia') is-invalid @enderror" id="nomeFantasia"
-                    name="nomeFantasia" value="{{ old('nomeFantasia') }}" required>
-                @error('nomeFantasia')
-                    <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="cnpj">CNPJ</label>
-                <input type="text" class="form-control @error('cnpj') is-invalid @enderror" id="cnpj" name="cnpj"
-                    value="{{ old('cnpj') }}" required>
-                @error('cnpj')
-                    <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="cpf">CPF</label>
-                <input type="text" class="form-control @error('cpf') is-invalid @enderror" id="cpf" name="cpf"
-                    value="{{ old('cpf') }}" required>
-                @error('cpf')
-                    <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="ie">Inscrição Estadual (IE)</label>
-                <input type="text" class="form-control @error('ie') is-invalid @enderror" id="ie" name="ie"
-                    value="{{ old('ie') }}" required>
-                @error('ie')
-                    <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="telefone">Telefone</label>
-                <input type="text" class="form-control @error('telefone') is-invalid @enderror" id="telefone"
-                    name="telefone" value="{{ old('telefone') }}" required>
-                @error('telefone')
-                    <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <!-- Campo de Endereço com Modal -->
-            <div class="form-group">
-                <label for="endereco_id">Endereço</label>
-                <div class="input-group">
-                    <select class="form-control @error('endereco_id') is-invalid @enderror" id="endereco_id"
-                        name="endereco_id" required>
-                        <option value="">Selecione um endereço</option>
-                        @foreach ($enderecos as $endereco)
-                            <option value="{{ $endereco->id }}"
-                                {{ old('endereco_id') == $endereco->id ? 'selected' : '' }}>
-                                {{ $endereco->logradouro }}, {{ $endereco->numero }} - {{ $endereco->bairro }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <button type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#modalEndereco">
-                        Adicionar Novo
-                    </button>
-                </div>
-                @error('endereco_id')
-                    <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-success">Salvar</button>
-            </div>
-        </form>
-
-    </div>
-
-    {{-- Modal de Novo Endereço --}}
-    <div class="modal fade" id="modalEndereco" tabindex="-1" role="dialog" aria-labelledby="modalEnderecoLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <form id="formEndereco" action="{{ route('enderecos.store') }}" method="POST">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title">{{ isset($cliente) ? 'Editar informações do Cliente' : 'Preencha os dados do novo Cliente' }}</h3>
+        </div>
+        <div class="card-body">
+            <form action="{{ isset($cliente) ? route('clientes.update', $cliente->id) : route('clientes.store') }}" method="POST">
                 @csrf
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalEnderecoLabel">Cadastrar Novo Endereço</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                @if(isset($cliente))
+                    @method('PUT')
+                @endif
+                <!-- CNPJ -->
+                <div class="form-group col-md-12">
+                    <label for="cnpj">CNPJ</label>
+                    <div class="input-group">
+                        <input type="text" id="cnpj" name="cnpj" class="form-control" placeholder="Digite o CNPJ"
+                            value="{{ $cliente->cnpj ?? '' }}">
+                        <button type="button" class="btn btn-info" id="search-cnpj">
+                            <i class="fas fa-search"></i> Consultar CNPJ
                         </button>
                     </div>
-                    <div class="modal-body">
-                        {{-- CEP --}}
-                        <div class="form-group">
-                            <label for="cep">CEP</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="cep" name="cep"
-                                    placeholder="Informe o CEP" required>
-                                <button type="button" class="btn btn-outline-secondary" id="buscarCep">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
+                </div>
 
-                        {{-- Logradouro --}}
-                        <div class="form-group">
-                            <label for="logradouro">Logradouro</label>
-                            <input type="text" class="form-control" id="logradouro" name="logradouro"
-                                placeholder="Informe o logradouro" required>
-                        </div>
+                <!-- Razão Social -->
+                <x-adminlte-input id="razaoSocial" name="razaoSocial" label="Razão Social" placeholder="Digite a razão social" 
+                    fgroup-class="col-md-12" value="{{ $cliente->razaoSocial ?? '' }}" required />
 
-                        {{-- Número --}}
-                        <div class="form-group">
-                            <label for="numero">Número</label>
-                            <input type="text" class="form-control" id="numero" name="numero"
-                                placeholder="Informe o número" required>
-                        </div>
+                <!-- Nome Fantasia -->
+                <x-adminlte-input id="nomeFantasia" name="nomeFantasia" label="Nome Fantasia" placeholder="Digite o nome fantasia"
+                    fgroup-class="col-md-12" value="{{ $cliente->nomeFantasia ?? '' }}" />
 
-                        {{-- Bairro --}}
-                        <div class="form-group">
-                            <label for="bairro">Bairro</label>
-                            <input type="text" class="form-control" id="bairro" name="bairro"
-                                placeholder="Informe o bairro" required>
-                        </div>
 
-                        {{-- Cidade --}}
-                        <div class="form-group">
-                            <label for="cidade">Cidade</label>
-                            <input type="text" class="form-control" id="cidade" name="cidade"
-                                placeholder="Informe a cidade" required>
-                        </div>
+                <!-- Inscrição Estadual -->
+                <x-adminlte-input id="ie" name="ie" label="Inscrição Estadual" placeholder="Digite a inscrição estadual"
+                    fgroup-class="col-md-12" value="{{ $cliente->ie ?? '' }}" />
 
-                        {{-- Estado --}}
-                        <div class="form-group">
-                            <label for="estado">Estado</label>
-                            <input type="text" class="form-control" id="estado" name="estado"
-                                placeholder="Informe o estado" required>
-                        </div>
-                        {{-- ibge --}}
-                        <div class="form-group">
-                            <label for="ibge">Código ibge</label>
-                            <input type="text" class="form-control" id="ibge" name="ibge"
-                                placeholder="Informe o codigo do ibge" required>
-                        </div>
+                <!-- E-mail -->
+                <x-adminlte-input id="email" type="email" name="email" label="E-mail" placeholder="Digite o e-mail"
+                    fgroup-class="col-md-12" value="{{ $cliente->email ?? '' }}" />
+
+                <!-- Telefone -->
+                <x-adminlte-input id="telefone" name="telefone" label="Telefone" placeholder="Digite o telefone"
+                    fgroup-class="col-md-12" value="{{ $cliente->telefone ?? '' }}" />
+
+                <!-- Endereço -->
+                <div class="form-group col-md-12">
+                    <label for="endereco_id">Endereço</label>
+                    <div class="input-group">
+                        <select class="form-control" id="endereco_id" name="endereco_id" required>
+                            <option value="" disabled {{ !isset($cliente->endereco_id) ? 'selected' : '' }}>Selecione um endereço...</option>
+                            @foreach($enderecos as $endereco)
+                                <option value="{{ $endereco->id }}" 
+                                    {{ isset($cliente->endereco_id) && $cliente->endereco_id == $endereco->id ? 'selected' : '' }}>
+                                    {{ $endereco->logradouro }}, {{ $endereco->numero }} - {{ $endereco->cidade }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#enderecoModal">
+                            <i class="fas fa-plus"></i> Novo Endereço
+                        </button>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-success">Salvar</button>
-                    </div>
+                </div>
+
+                <!-- Botão de Salvar -->
+                <div class="form-group col-md-12">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> {{ isset($cliente) ? 'Atualizar' : 'Salvar' }}
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
-@endsection
+    <!-- Modal para Novo Endereço -->
+    <div class="modal fade" id="enderecoModal" tabindex="-1" aria-labelledby="enderecoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="{{ route('enderecos.store') }}" id="formEndereco">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title">Cadastrar Novo Endereço</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="cep">CEP</label>
+                            <div class="input-group">
+                                <input type="text" name="cep" id="cep" class="form-control" placeholder="Digite o CEP" required />
+                                <button type="button" class="btn btn-info" id="buscarCep">
+                                    <i class="fas fa-search"></i> Buscar
+                                </button>
+                            </div>
+                        </div>
+                        <x-adminlte-input id="logradouro" name="logradouro" label="Logradouro" placeholder="Digite o logradouro" required />
+                        <x-adminlte-input id="numero" name="numero" label="Número" placeholder="Digite o número" required />
+                        <x-adminlte-input id="bairro" name="bairro" label="Bairro" placeholder="Digite o bairro" required />
+                        <x-adminlte-input id="cidade" name="cidade" label="Cidade" placeholder="Digite a cidade" required />
+                        <x-adminlte-input id="estado" name="estado" label="Estado" placeholder="Digite o estado" required />
+                        <x-adminlte-input id="ibge" name="ibge" label="ibge" placeholder="Digite o ebge" required />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Salvar Endereço</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@stop
 
 @section('js')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> --}}
-    <script>
-        $('#telefone').mask('(00) 00000-0000');
-        $('#formEndereco').on('submit', function(e) {
-            e.preventDefault();
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
-            $.ajax({
-                url: $(this).attr('action'),
-                method: 'POST',
-                data: $(this).serialize(),
-                success: function(response) {
-                    if (response.success) {
-                        $('#endereco_id').append(new Option(
-                            `${response.endereco.logradouro}, ${response.endereco.numero} - ${response.endereco.bairro}`,
-                            response.endereco.id,
-                            true,
-                            true
-                        ));
-                        $('#modalEndereco').modal('hide');
-                        $('#formEndereco')[0].reset();
-                    }
-                },
-                error: function(xhr) {
-                    console.error(xhr.responseJSON.message || 'Erro ao salvar o endereço.');
+    <script>
+        $(document).ready(function() {
+            $('#cnpj').mask('99.999.999/9999-99');
+
+            $('#search-cnpj').on('click', function() {
+                const cnpj = $('#cnpj').val().replace(/[^\d]/g, '');
+                if (cnpj.length !== 14) {
+                    alert('Por favor, insira um CNPJ válido com 14 dígitos.');
+                    return;
                 }
+                $.ajax({
+                    url: `https://open.cnpja.com/office/${cnpj}`,
+                    type: 'GET',
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader('Authorization',
+                            'Bearer YOUR_API_TOKEN');
+                    },
+                    success: function(response) {
+                        if (response) {
+                            console.log(response);
+                            $('#razaoSocial').val(response.company.name || '');
+                            $('#nomeFantasia').val(response.alias || '');
+                            $('#ie').val(response.registrations[0].number || '');
+                            $('#logradouro').val(response.address.street);
+                            $('#cidade').val(response.address.city);
+                            $('#estado').val(response.address.state);
+                            $('#bairro').val(response.address.district);
+                            $('#cep').val(response.address.zip);
+                            $('#numero').val(response.address.number);
+                        } else {
+                            alert('Nenhum dado encontrado para o CNPJ fornecido.');
+                        }
+                    },
+                    error: function() {
+                        alert('Ocorreu um erro ao buscar o CNPJ. Por favor, tente novamente.');
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#telefone').mask('(00) 00000-0000');
+    
+            $('#formEndereco').on('submit', function (e) {
+                e.preventDefault(); 
+    
+                const form = $(this);
+    
+                $.ajax({
+                    url: form.attr('action'), 
+                    method: 'POST',          
+                    data: form.serialize(),  
+                    success: function (response) {
+                        console.log(response);
+                        if (response.success) {
+                            $('#endereco_id').append(
+                                new Option(
+                                    `${response.endereco.logradouro}, ${response.endereco.numero} - ${response.endereco.bairro}`,
+                                    response.endereco.id,
+                                    true,  
+                                    true
+                                )
+                            );
+    
+                            alert(response.message || 'Endereço salvo com sucesso!');
+    
+                            $('#enderecoModal').modal('hide');
+                            $('.modal-backdrop').remove();
+                            form[0].reset();
+                        } else {
+                            alert(response.message || 'Erro ao salvar o endereço.');
+                        }
+                    },
+                    error: function (xhr) {
+                        const errors = xhr.responseJSON?.errors;
+                        let message = xhr.responseJSON?.message || 'Erro ao salvar o endereço.';
+    
+                        if (errors) {
+                            message += '\n' + Object.values(errors).map((err) => `- ${err}`).join('\n');
+                        }
+    
+                        alert(message);
+                        console.error(message);
+                    }
+                });
             });
         });
     </script>
@@ -221,11 +225,11 @@
                 .then(data => {
                     if (!data.erro) {
                         console.log(data);
-                        document.getElementById('logradouro').value = data.logradouro;
-                        document.getElementById('cidade').value = data.localidade;
-                        document.getElementById('estado').value = data.uf;
-                        document.getElementById('bairro').value = data.bairro;
-                        document.getElementById('ibge').value = data.ibge;
+                        $('#logradouro').val(data.logradouro);
+                        $('#cidade').val(data.localidade);
+                        $('#estado').val(data.uf);
+                        $('#bairro').val(data.bairro);
+                        $('#ibge').val(data.ibge);
                     } else {
                         alert('CEP não encontrado.');
                     }

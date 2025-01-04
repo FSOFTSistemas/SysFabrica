@@ -39,6 +39,7 @@
             </tr>
         </thead>
         <tbody>
+
             @foreach ($clientes as $cliente)
                 <tr>
                     <td>{{ $cliente->razaoSocial }}</td>
@@ -63,21 +64,56 @@
                 <!-- Modal Visualizar Cliente -->
                 <div class="modal fade" id="viewClienteModal{{ $cliente->id }}" tabindex="-1"
                     aria-labelledby="viewClienteModalLabel{{ $cliente->id }}" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-lg">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="viewClienteModalLabel{{ $cliente->id }}">Detalhes do Cliente</h5>
+                            <!-- Cabeçalho do Modal -->
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title" id="viewClienteModalLabel{{ $cliente->id }}">
+                                    <i class="fas fa-user"></i> Detalhes do Cliente
+                                </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
+
+                            <!-- Corpo do Modal -->
                             <div class="modal-body">
-                                <p><strong>Razão Social:</strong> {{ $cliente->razaoSocial }}</p>
-                                <p><strong>Nome Fantasia:</strong> {{ $cliente->nomeFantasia }}</p>
-                                <p><strong>CNPJ:</strong> {{ $cliente->cnpj }}</p>
-                                <p><strong>Endereço:</strong> {{ $cliente->endereco }}</p>
-                                <p><strong>Criado em:</strong> {{ $cliente->created_at->format('d/m/Y') }}</p>
+                                <div class="row">
+                                    <!-- Coluna 1 -->
+                                    <div class="col-md-6">
+                                        <p><strong><i class="fas fa-id-card"></i> Razão Social:</strong>
+                                            {{ $cliente->razaoSocial ?? 'Não informado' }}</p>
+                                        <p><strong><i class="fas fa-clipboard-list"></i> Nome Fantasia:</strong>
+                                            {{ $cliente->nomeFantasia ?? 'Não informado' }}</p>
+                                        <p><strong><i class="fas fa-cogs"></i> CNPJ:</strong>
+                                            {{ $cliente->cnpj ?? 'Não informado' }}</p>
+                                        <p><strong><i class="fas fa-calendar-alt"></i> Criado em:</strong>
+                                            {{ $cliente->created_at ? \Carbon\Carbon::parse($cliente->created_at)->format('d/m/Y H:i') : 'Não informado' }}
+                                        </p>
+                                    </div>
+                                    <!-- Coluna 2 -->
+                                    <div class="col-md-6">
+                                        <p><strong><i class="fas fa-map-marker-alt"></i> Endereço:</strong>
+                                            {{ $cliente->endereco->logradouro ?? 'Não informado' }}</p>
+                                        <p><strong><i class="fas fa-city"></i> Bairro:</strong>
+                                            {{ $cliente->endereco->bairro ?? 'Não informado' }}</p>
+                                        <p><strong><i class="fas fa-map"></i> Cidade:</strong>
+                                            {{ $cliente->endereco->cidade ?? 'Não informado' }}</p>
+                                        <p><strong><i class="fas fa-flag"></i> Estado:</strong>
+                                            {{ $cliente->endereco->estado ?? 'Não informado' }}</p>
+                                        <p><strong><i class="fas fa-envelope"></i> CEP:</strong>
+                                            {{ $cliente->endereco->cep ?? 'Não informado' }}</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+                            <!-- Rodapé do Modal -->
+                            <div class="modal-footer d-flex justify-content-between">
+                                <span class="text-muted">
+                                    <small><i class="fas fa-clock"></i> Criado em:
+                                        {{ $cliente->created_at->format('d/m/Y H:i') }}</small>
+                                </span>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    <i class="fas fa-times"></i> Fechar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -93,7 +129,8 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <p>Tem certeza de que deseja excluir o cliente <strong>{{ $cliente->razaoSocial }}</strong>?</p>
+                                <p>Tem certeza de que deseja excluir o cliente <strong>{{ $cliente->razaoSocial }}</strong>?
+                                </p>
                             </div>
                             <div class="modal-footer">
                                 <form action="{{ route('clientes.destroy', $cliente) }}" method="POST">

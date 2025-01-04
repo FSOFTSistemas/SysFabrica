@@ -31,6 +31,7 @@ class EmpresaEnderecoUsuarioSeeder extends Seeder
             'email' => 'admin@fsoftsistemas.com',
             'password' => Hash::make('senha123'),
             'permissions' => 'admin',
+            'empresa_id' => $empresaId,
             'created_at' => now(),
             'updated_at' => now(),
         ]);

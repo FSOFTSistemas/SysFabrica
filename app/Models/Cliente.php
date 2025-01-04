@@ -11,18 +11,23 @@ class Cliente extends Model
 
     protected $fillable = [
         'razaoSocial',
-        'empresa_id',
         'nomeFantasia',
         'cnpj',
-        'cpf',
         'ie',
+        'email',
         'telefone',
-        'endereco',
+        'endereco_id',
+        'empresa_id',
     ];
 
     public function empresa()
     {
         return $this->belongsTo(Empresa::class);
+    }
+
+    public function endereco()
+    {
+        return $this->belongsTo(Endereco::class);
     }
 
     public function vendas()

@@ -50,7 +50,7 @@
                 <tr>
                     <td>{{ $empresa->razao_social }}</td>
                     <td>{{ $empresa->nome_fantasia }}</td>
-                    <td>{{ $empresa->endereco->logradouro ?? 'Não informado' }}</td>
+                    <td>{{ $empresa->logradouro ?? 'Não informado' }}</td>
                     <td>{{ $empresa->created_at->format('d/m/Y') }}</td>
                     <td>
                         <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"

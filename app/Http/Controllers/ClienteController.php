@@ -20,10 +20,13 @@ class ClienteController extends Controller
     {
         try {
             $empresa = Auth::user()->empresa_id;
-            $clientes = Cliente::where('empresa_id', $empresa);
+            $clientes = Cliente::where('empresa_id', $empresa)
+                ->with('endereco')
+                ->get();
 
             return view('clientes.index', compact('clientes'));
         } catch (Exception $e) {
+            dd($e->getMessage());
             return back()->with('error', 'Erro ao carregar os clientes: ' . $e->getMessage());
         }
     }
@@ -35,7 +38,7 @@ class ClienteController extends Controller
     {
         try {
             $empresa = Auth::user()->empresa_id;
-            $enderecos = Endereco::where('empresa_id', $empresa);
+            $enderecos = Endereco::where('empresa_id', $empresa)->get();
             return view('clientes.form', compact('enderecos'));
         } catch (Exception $e) {
             return back()->with('error', 'Erro ao carregar o formulário de cadastro: ' . $e->getMessage());
@@ -52,9 +55,9 @@ class ClienteController extends Controller
                 'razaoSocial' => 'required|string|max:255',
                 'nomeFantasia' => 'nullable|string|max:255',
                 'cnpj' => 'nullable|string|max:18',
-                'cpf' => 'nullable|string|max:14',
                 'ie' => 'nullable|string|max:20',
                 'telefone' => 'required|string|max:15',
+                'email' => 'required|string|max:255',
                 'endereco_id' => 'nullable|exists:enderecos,id',
             ]);
 
@@ -63,15 +66,18 @@ class ClienteController extends Controller
                 'empresa_id' => Auth::user()->empresa_id,
                 'nomeFantasia' => $request->nomeFantasia,
                 'cnpj' => $request->cnpj,
-                'cpf' => $request->cpf,
                 'ie' => $request->ie,
                 'telefone' => $request->telefone,
+                'email' => $request->email,
                 'endereco_id' => $request->endereco_id,
             ]);
-
+            Sweetalert::success('Cliente criado com sucesso.', 'Sucesso');
             return redirect()->route('clientes.index')->with('success', 'Cliente criado com sucesso.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Erro ao criar o cliente: ' . $e->getMessage());
+
+            dd($e->getMessage());
+            Sweetalert::error('Erro ao criar o cliente' . $e->getMessage(), 'Erro');
+            return redirect()->back()->withInput();
         }
     }
 
@@ -90,7 +96,7 @@ class ClienteController extends Controller
     {
         try {
             $empresa = Auth::user()->empresa_id;
-            $enderecos = Endereco::where('empresa_id', $empresa);
+            $enderecos = Endereco::where('empresa_id', $empresa)->get();
             $cliente = Cliente::find($cliente->id);
             return view('clientes.form', compact('enderecos', 'cliente'));
         } catch (Exception $e) {
@@ -125,10 +131,11 @@ class ClienteController extends Controller
                 'telefone' => $request->telefone,
                 'endereco_id' => $request->endereco_id,
             ]);
-
+            Sweetalert::success('Cliente atualizado com sucesso', 'Sucesso');
             return redirect()->route('clientes.index')->with('success', 'Cliente atualizado com sucesso.');
         } catch (Exception $e) {
-            return back()->with('error', 'Erro ao atualizar o cliente: ' . $e->getMessage());
+            Sweetalert::success('Erro ao atualizar o cliente '.$e->getMessage(), 'error');
+            return back()->withInput();
         }
     }
 
@@ -140,10 +147,11 @@ class ClienteController extends Controller
         try {
             $cliente = Cliente::findOrFail($cliente->id);
             $cliente->delete();
-
+            Sweetalert::success('Cliente deletado com sucesso.', 'Sucesso');
             return redirect()->route('clientes.index')->with('success', 'Cliente deletado com sucesso.');
         } catch (Exception $e) {
-            return back()->with('error', 'Erro ao deletar o cliente: ' . $e->getMessage());
+            Sweetalert::success('Erro ao deletar o cliente ', 'error');
+            return back()->withInput();
         }
     }
 }

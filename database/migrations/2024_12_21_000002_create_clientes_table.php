@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('razaoSocial');
             $table->string('nomeFantasia');
-            $table->string('cnpj')->unique();
+            $table->string('cnpj');
             $table->string('ie')->nullable();
             $table->string('email')->nullable();
             $table->string('telefone')->nullable();
