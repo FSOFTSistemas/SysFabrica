@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
             $table->string('descricao');
-            $table->integer('status');
+            $table->double('precocusto', 8, 2);
+            $table->float('precoVenda', 8, 2);
+            $table->enum('insumo', ['sim', 'nao'])->default('nao');
+            $table->double('comissao', 8, 2)->default(0.00);
+            $table->enum('status', ['ativo', 'inativo'])->default('ativo'); 
             $table->unsignedBigInteger('empresa_id');
-            $table->double('preco_custo');
-            $table->double('preco_venda');
-            $table->timestamps();
-        
             $table->foreign('empresa_id')->references('id')->on('empresas')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

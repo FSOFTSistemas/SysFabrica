@@ -323,18 +323,6 @@ return [
             'label_color' => 'primary',
         ],
         [
-            'text' => 'Funcionário',
-            'url' => '/funcionarios',
-            'icon' => 'fas fa-fw fa-briefcase',
-            'label_color' => 'info',
-        ],
-        [
-            'text' => 'Usuários',
-            'url' => '/usuarios',
-            'icon' => 'fas fa-fw fa-users',
-            'label_color' => 'danger',
-        ],
-        [
             'text' => 'Produto',
             'url' => '/produtos',
             'icon' => 'fas fa-fw fa-box',
@@ -357,6 +345,18 @@ return [
             'url' => '/empresas',
             'icon' => 'fas fa-fw fa-building',
             'label_color' => 'info',
+        ],
+        [
+            'text' => 'Funcionário',
+            'url' => '/funcionarios',
+            'icon' => 'fas fa-fw fa-briefcase',
+            'label_color' => 'info',
+        ],
+        [
+            'text' => 'Usuários',
+            'url' => '/usuarios',
+            'icon' => 'fas fa-fw fa-users',
+            'label_color' => 'danger',
         ],
         [
             'text' => 'Configurações',

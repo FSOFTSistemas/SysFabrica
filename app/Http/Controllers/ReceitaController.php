@@ -2,25 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produto;
 use App\Models\Receita;
 use Illuminate\Http\Request;
+use Wavey\Sweetalert\Sweetalert;
 
 class ReceitaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($produto_id)
     {
-        //
-    }
+        $produto = Produto::find($produto_id); 
+        $receitas = Receita::where('produto_id', $produto_id)->get(); 
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return view('receitas.index', compact('produto', 'receitas'));
     }
 
     /**
@@ -28,23 +25,22 @@ class ReceitaController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        try {
+            $request->validate([
+                'descricao' => 'required|string|max:255',
+                'qtd' => 'required|numeric',
+                'produto_id' => 'required|exists:produtos,id',
+            ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Receita $receita)
-    {
-        //
-    }
+            $receita = Receita::create($request->all());
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Receita $receita)
-    {
-        //
+            Sweetalert::success('Sucesso', 'Ingrediente cadastrado com sucesso!');
+            return redirect()->route('receitas.index',['produto_id' => $request['produto_id']]);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            SweetAlert::error('Erro', 'Falha ao cadastrar ingrediente: ' . $e->getMessage());
+            return back();
+        }
     }
 
     /**
@@ -52,7 +48,22 @@ class ReceitaController extends Controller
      */
     public function update(Request $request, Receita $receita)
     {
-        //
+        try {
+            $request->validate([
+                'descricao' => 'required|string|max:255',
+                'qtd' => 'required|numeric',
+                'produto_id' => 'required|exists:produtos,id',
+            ]);
+
+            $receita->update($request->all());
+
+            SweetAlert::success('Sucesso', 'Ingrediente atualizado com sucesso!');
+            return redirect()->route('receitas.index',['produto_id' => $request['produto_id']]);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            SweetAlert::error('Erro', 'Falha ao atualizar ingrediente: ' . $e->getMessage());
+            return back();
+        }
     }
 
     /**
@@ -60,6 +71,15 @@ class ReceitaController extends Controller
      */
     public function destroy(Receita $receita)
     {
-        //
+        try {
+            $receita->delete();
+
+            SweetAlert::success('Sucesso', 'Ingrediente excluído com sucesso!');
+            return redirect()->route('receitas.index',['produto_id' => $receita['produto_id']]);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            SweetAlert::error('Erro', 'Falha ao excluir ingrediente: ' . $e->getMessage());
+            return back();
+        }
     }
 }
