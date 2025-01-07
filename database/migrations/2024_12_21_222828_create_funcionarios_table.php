@@ -14,16 +14,16 @@ return new class extends Migration
         Schema::create('funcionarios', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->unsignedBigInteger('empresa_id');
-            $table->unsignedBigInteger('endereco_id')->nullable();
             $table->string('telefone');
             $table->float('comissao')->nullable();
             $table->date('admissao');
             $table->integer('situacao')->default(1);
+            $table->unsignedBigInteger('endereco_id')->nullable();
+            $table->foreign('endereco_id')->references('id')->on('enderecos')->onDelete('set null');
+            $table->unsignedBigInteger('empresa_id');
+            $table->foreign('empresa_id')->references('id')->on('empresas')->onDelete('cascade');
             $table->timestamps();
         
-            $table->foreign('empresa_id')->references('id')->on('empresas')->onDelete('cascade');
-            $table->foreign('endereco_id')->references('id')->on('enderecos')->onDelete('set null');
         });
     }
 
