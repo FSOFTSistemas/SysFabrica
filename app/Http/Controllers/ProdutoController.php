@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Estoque;
 use App\Models\Produto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Wavey\Sweetalert\Sweetalert;
 
 class ProdutoController extends Controller
@@ -24,6 +26,7 @@ class ProdutoController extends Controller
     public function store(Request $request)
     {
         try {
+            DB::beginTransaction();
             $validated = $request->validate([
                 'descricao' => 'required|string|max:255',
                 'status' => 'required|in:ativo,inativo',
@@ -33,11 +36,16 @@ class ProdutoController extends Controller
                 'precoVenda' => 'required|numeric|min:0',
             ]);
             $validated['empresa_id'] = Auth::user()->empresa_id;
-            Produto::create($validated);
+            $produto = Produto::create($validated);
+            $id = $produto->id; 
+            $this->inserirEstoque($id);
+            DB::commit();
+
             Sweetalert::success('Produto criado com sucesso!', 'Sucesso');
             return redirect()->route('produtos.index');
         } catch (\Exception $e) {
             dd($e->getMessage());
+            DB::rollBack();
             Sweetalert::error('Falha ao criado produto!' . $e->getMessage(), 'Error');
             return redirect()->back()->withInput()->withErrors($e->getMessage());
         }
@@ -83,6 +91,21 @@ class ProdutoController extends Controller
         } catch (\Exception $e) {
             Sweetalert::error('Falha ao deletar produto!' . $e->getMessage(), 'Error');
             return redirect()->back()->withInput()->withErrors($e->getMessage());
+        }
+    }
+
+    public function inserirEstoque($idProduto) {
+        try {
+            Estoque::create([
+                'produto_id' => $idProduto,
+                'estoque_atual' => 1,
+                'entradas' => 1,
+                'saidas' => 0,
+                'empresa_id' => Auth::user()->empresa_id
+            ]);
+        } catch (\Exception $e) {
+            Sweetalert::error('Erro ao criar o estoque: ' . $e->getMessage(), 'Erro');
+            return back();
         }
     }
 }

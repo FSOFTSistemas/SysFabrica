@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('estoque', function (Blueprint $table) {
+        Schema::create('estoques', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('produto_id')->constrained('produtos')->onDelete('cascade');
             $table->float('estoque_atual', 8, 2)->default(0);
             $table->float('entradas', 8, 2)->default(0);
             $table->float('saidas', 8, 2)->default(0);
+            $table->foreignId('produto_id')->constrained('produtos')->onDelete('cascade');
+            $table->foreignId('empresa_id')->constrained('empresas')->onDelete('cascade');
             $table->timestamps();
         });
     }

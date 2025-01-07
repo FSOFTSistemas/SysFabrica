@@ -10,14 +10,20 @@ class Estoque extends Model
     use HasFactory;
 
     protected $fillable = [
-        'produto_id',
         'estoque_atual',
         'entradas',
         'saidas',
+        'produto_id',
+        'empresa_id',
     ];
 
     public function produto()
     {
         return $this->belongsTo(Produto::class);
+    }
+
+    public function empresa()
+    {
+        return $this->belongsTo(Empresa::class);
     }
 }

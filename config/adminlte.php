@@ -330,7 +330,7 @@ return [
         ],
         [
             'text' => 'Estoque',
-            'url' => '/estoque',
+            'url' => '/estoques',
             'icon' => 'fas fa-fw fa-warehouse',
             'label_color' => 'secondary',
         ],
