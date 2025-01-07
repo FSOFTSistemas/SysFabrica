@@ -11,12 +11,12 @@ class Funcionario extends Model
 
     protected $fillable = [
         'nome',
-        'empresa_id',
-        'endereco_id',
         'telefone',
         'comissao',
         'admissao',
         'situacao',
+        'empresa_id',
+        'endereco_id',
     ];
 
     public function empresa()
