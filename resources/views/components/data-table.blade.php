@@ -22,6 +22,29 @@
         href="https://cdn.datatables.net/v/dt/jq-3.7.0/jszip-3.10.1/dt-2.0.3/af-2.7.0/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/cr-2.0.0/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.1/sc-2.4.1/sb-1.7.0/sp-2.3.0/datatables.min.css"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        table#{{ $uniqueId }} {
+            border-collapse: collapse;
+        }
+
+        table#{{ $uniqueId }} th,
+        table#{{ $uniqueId }} td {
+            padding: 1px;
+            text-align: left;
+        }
+
+        /* Linhas alternadas coloridas */
+        table#{{ $uniqueId }} tbody tr:nth-child(odd) {
+            background-color: #f2f2f2;
+            /* Cor mais clara para linhas ímpares */
+        }
+
+        table#{{ $uniqueId }} tbody tr:nth-child(even) {
+            background-color: #ffffff;
+            /* Cor padrão para linhas pares */
+        }
+    </style>
 @endsection
 
 @section('js')
@@ -76,8 +99,8 @@
             ],
             initComplete: function() {
                 // Ajusta o tamanho da fonte e o alinhamento
-                $('#{{ $uniqueId }}').css('font-size', '12px');
-                $('#{{ $uniqueId }} th, #{{ $uniqueId }} td').css('font-size', '12px');
+                $('#{{ $uniqueId }}').css('font-size', '14px');
+                $('#{{ $uniqueId }} th, #{{ $uniqueId }} td').css('font-size', '14px');
 
                 // Alinha os botões à direita
                 $('.dt-buttons').css({

@@ -3,7 +3,7 @@
 @section('title', 'Gerenciamento de Funcionários')
 
 @section('content_header')
-    <h1>Funcionários</h1>
+    
 @stop
 
 @section('content')

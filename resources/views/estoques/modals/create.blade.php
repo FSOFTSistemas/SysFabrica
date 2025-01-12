@@ -44,7 +44,7 @@
                                readonly>
                     </div>
 
-                    <button type="submit" class="btn btn-success">Salvar Estoque</button>
+                    <button type="submit" class="btn btn-success w-100">Salvar Estoque</button>
                 </form>
             </div>
 

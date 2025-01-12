@@ -22,18 +22,21 @@
                             </div>
                             <div class="mb-3">
                                 <label for="precocusto" class="form-label">Preço Custo:</label>
-                                <input type="number" class="form-control" name="precocusto" id="precocusto" step="0.01" required>
+                                <input type="number" class="form-control" name="precocusto" id="precocusto"
+                                    step="0.01" required>
                             </div>
                             <div class="mb-3">
                                 <label for="precoVenda" class="form-label">Preço Venda:</label>
-                                <input type="number" class="form-control" name="precoVenda" id="precoVenda" step="0.01" required>
+                                <input type="number" class="form-control" name="precoVenda" id="precoVenda"
+                                    step="0.01" required>
                             </div>
                         </div>
                         <!-- Coluna 2 -->
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="comissao" class="form-label">Comissão:</label>
-                                <input type="number" class="form-control" name="comissao" id="comissao" step="0.01" value="0" required>
+                                <input type="number" class="form-control" name="comissao" id="comissao" step="0.01"
+                                    value="0" required>
                             </div>
                             <div class="mb-3">
                                 <label for="insumo" class="form-label">Insumo:</label>
@@ -55,8 +58,15 @@
 
                 <!-- Rodapé do Modal -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <div class="row w-100">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-secondary btn-block w-100"
+                                data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-primary btn-block w-100">Salvar</button>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>

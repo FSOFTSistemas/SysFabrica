@@ -342,7 +342,7 @@ return [
         ],
         [
             'text' => 'Empresa',
-            'url' => '/empresas',
+            'url' => '/company',
             'icon' => 'fas fa-fw fa-building',
             'label_color' => 'info',
         ],
@@ -360,7 +360,7 @@ return [
         ],
         [
             'text' => 'Configurações',
-            'url' => '/configuracoes',
+            'url' => '/empresas',
             'icon' => 'fas fa-fw fa-cogs',
             'label_color' => 'dark',
         ],

@@ -34,6 +34,8 @@ Route::middleware('auth')->group(function () {
     Route::get('endereco/{cep}', [EnderecoController::class, 'buscarEnderecoPorCep'])->name('buscarCep');
     Route::get('/receitas/{produto_id}', [ReceitaController::class, 'index'])->name('receitas.index');
     Route::resource('receitas', ReceitaController::class)->except(['index']);
+    Route::get('company', [EmpresaController::class, 'getcompany'])->name('company');
+    Route::put('company/update', [EmpresaController::class, 'updateCompany'])->name('updateCompany');
 });
 
 require __DIR__ . '/auth.php';
