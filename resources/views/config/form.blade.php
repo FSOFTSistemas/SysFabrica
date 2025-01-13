@@ -165,8 +165,17 @@
         </div>
 
         <!-- Botões -->
-        <button type="submit" class="btn btn-primary">{{ isset($empresa) ? 'Atualizar' : 'Salvar' }}</button>
-        <a href="{{ route('empresas.index') }}" class="btn btn-secondary">Cancelar</a>
+        <div class="form-group row col-md-12">
+            <!-- Botão de Salvar -->
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-primary btn-block">{{ isset($empresa) ? 'Atualizar' : 'Salvar' }}</button>
+            </div>
+        
+            <!-- Botão de Cancelar -->
+            <div class="col-md-6">
+                <a href="{{ route('empresas.index') }}" class="btn btn-secondary btn-block">Cancelar</a>
+            </div>
+        </div>
     </form>
 </div>
 @endsection
@@ -174,6 +183,7 @@
 @section('js')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    
 
     <script>
         $(document).ready(function() {

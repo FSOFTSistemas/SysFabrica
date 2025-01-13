@@ -71,7 +71,7 @@
 
                 <!-- Botão de Salvar -->
                 <div class="form-group col-md-12">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary w-100">
                         <i class="fas fa-save"></i> {{ isset($cliente) ? 'Atualizar' : 'Salvar' }}
                     </button>
                 </div>

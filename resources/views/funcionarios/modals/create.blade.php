@@ -3,7 +3,6 @@
 @section('title', isset($funcionario) ? 'Editar Funcionário' : 'Novo Funcionário')
 
 @section('content_header')
-    <h3 class="card-title">{{ isset($funcionario) ? 'Editar Funcionário' : 'Cadastrar Novo Funcionário' }}</h3>
 @stop
 
 @section('content')
@@ -58,13 +57,20 @@
             </div>
 
             <!-- Botão de Salvar -->
-            <div class="form-group col-md-12">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> {{ isset($funcionario) ? 'Atualizar' : 'Salvar' }}
-                </button>
-                <a href="{{ route('funcionarios.index') }}" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Cancelar
-                </a>
+            <div class="form-group row col-md-12">
+                <!-- Botão de Salvar -->
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-save"></i> {{ isset($funcionario) ? 'Atualizar' : 'Salvar' }}
+                    </button>
+                </div>
+            
+                <!-- Botão de Cancelar -->
+                <div class="col-md-6">
+                    <a href="{{ route('funcionarios.index') }}" class="btn btn-secondary btn-block">
+                        <i class="fas fa-arrow-left"></i> Cancelar
+                    </a>
+                </div>
             </div>
         </form>
     </div>
