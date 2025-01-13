@@ -8,6 +8,7 @@ use App\Http\Controllers\FuncionarioController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceitaController;
+use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VendaController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('vendas', VendaController::class);
     Route::resource('empresas', EmpresaController::class);
     Route::resource('enderecos', EnderecoController::class);
+    Route::resource('usuarios', UsuarioController::class);
     Route::get('endereco/{cep}', [EnderecoController::class, 'buscarEnderecoPorCep'])->name('buscarCep');
     Route::get('/receitas/{produto_id}', [ReceitaController::class, 'index'])->name('receitas.index');
     Route::resource('receitas', ReceitaController::class)->except(['index']);
