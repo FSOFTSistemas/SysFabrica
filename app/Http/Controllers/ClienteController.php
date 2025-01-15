@@ -18,6 +18,8 @@ class ClienteController extends Controller
      */
     public function index()
     {
+
+        
         try {
             $empresa = Auth::user()->empresa_id;
             $clientes = Cliente::where('empresa_id', $empresa)

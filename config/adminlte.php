@@ -300,45 +300,41 @@ return [
     */
 
     'menu' => [
-        // Navbar items:
-        [
-            'type' => 'navbar-search',
-            'text' => 'search',
-            'topnav_right' => true,
-        ],
-        [
-            'type' => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
+
         [
             'text' => 'Home',
             'url' => '/dashboard',
             'icon' => 'far fa-fw fa-home',
             'label_color' => 'success',
+            'can' => 'visualizar_dashboard',
         ],
         [
             'text' => 'Cliente',
             'url' => '/clientes',
             'icon' => 'fas fa-fw fa-user',
             'label_color' => 'primary',
+            'can' => 'visualizar cliente',
         ],
         [
             'text' => 'Produto',
             'url' => '/produtos',
             'icon' => 'fas fa-fw fa-box',
             'label_color' => 'warning',
+            'can' => 'visualizar produto',
         ],
         [
             'text' => 'Estoque',
             'url' => '/estoques',
             'icon' => 'fas fa-fw fa-warehouse',
             'label_color' => 'secondary',
+            'can' => 'visualizar estoque',
         ],
         [
             'text' => 'Venda',
             'url' => '/vendas',
             'icon' => 'fas fa-fw fa-shopping-cart',
             'label_color' => 'success',
+            'can' => 'visualizar venda',
         ],
         [
             'text' => 'Empresa',
@@ -351,18 +347,21 @@ return [
             'url' => '/funcionarios',
             'icon' => 'fas fa-fw fa-briefcase',
             'label_color' => 'info',
+            'can' => 'visualizar funcionario',
         ],
         [
             'text' => 'Usuários',
             'url' => '/usuarios',
             'icon' => 'fas fa-fw fa-users',
             'label_color' => 'danger',
+            'can' => 'visualizar usuario',
         ],
         [
             'text' => 'Configurações',
             'url' => '/empresas',
             'icon' => 'fas fa-fw fa-cogs',
             'label_color' => 'dark',
+            'can' => 'manager_companies',
         ],
 
 

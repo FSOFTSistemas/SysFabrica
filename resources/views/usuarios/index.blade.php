@@ -3,14 +3,16 @@
 @section('title', 'Gestão de Usuários')
 
 @section('content_header')
-   
+
 @stop
 
 @section('content')
     <div class="row mb-3">
-        <div class="col">
-            <!-- Botão para abrir o modal de criação -->
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">+ Novo Usuário</button>
+        <div class="col text-right">
+            <!-- Botão estilizado para criar um novo usuário -->
+            <a href="{{ route('usuarios.create') }}" class="btn btn-success">
+                <i class="fas fa-user-plus"></i> Novo Usuário
+            </a>
         </div>
     </div>
 
@@ -24,13 +26,12 @@
         ],
         'itemsPerPage' => 10,
         'showTotal' => false,
-        'valueColumnIndex' => 3
+        'valueColumnIndex' => 3,
     ])
         <thead class="table-primary">
             <tr>
                 <th>Nome</th>
                 <th>Email</th>
-                <th>Permissões</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -39,7 +40,6 @@
                 <tr>
                     <td>{{ $usuario->name }}</td>
                     <td>{{ $usuario->email }}</td>
-                    <td>{{ $usuario->permissions }}</td>
                     <td>
                         <!-- Botão Visualizar -->
                         <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
@@ -70,7 +70,5 @@
             @endforeach
         </tbody>
     @endcomponent
-
-    <!-- Modal Criar -->
-    @include('usuarios.modals.create')
 @stop
+
