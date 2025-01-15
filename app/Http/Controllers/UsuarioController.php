@@ -17,7 +17,7 @@ class UsuarioController extends Controller
     public function index()
     {
         $usuarios = User::where('empresa_id', Auth::user()->empresa_id)->get();
-        $permissions = Permission::all(); // Obter todas as permissões
+        $permissions = Permission::all();
         return view('usuarios.index', compact('usuarios', 'permissions'));
     }
 
@@ -26,7 +26,9 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        //
+        $usuarios = User::where('empresa_id', Auth::user()->empresa_id)->get();
+        $permissions = Permission::where('name', '!=', 'manage companies')->get();
+        return view('usuarios.modals.create', compact('usuarios', 'permissions'));
     }
 
     /**
@@ -39,22 +41,25 @@ class UsuarioController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:6',
-                'permissions' => 'array',
+                'permission.*' => 'integer|exists:permissions,id',
             ]);
-    
+
             $user = User::create([
                 'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
+                'empresa_id' => Auth::user()->empresa_id,
             ]);
-    
-            if ($request->has('permissions')) {
-                $user->syncPermissions($validatedData['permissions']);
+
+            if (isset($validatedData['permission']) && count($validatedData['permission']) > 0) {
+                $permissions = \Spatie\Permission\Models\Permission::whereIn('id', $validatedData['permission'])->get();
+                $user->syncPermissions($permissions);
             }
-    
+
             Sweetalert::success('Usuário criado com sucesso!', 'Sucesso');
             return redirect()->route('usuarios.index');
         } catch (\Exception $e) {
+            dd($e->getMessage());
             SweetAlert::error('Falha ao criar usuário! ' . $e->getMessage(), 'Erro');
             return redirect()->back()->withInput()->withErrors($e->getMessage());
         }
@@ -84,21 +89,21 @@ class UsuarioController extends Controller
         try {
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
-                'email' => 'required|email|unique:users,email,' . $usuario->id,
-                'password' => 'nullable|min:6',
-                'permissions' => 'array',
+                'email' => 'required|email|unique:users,email,' . ($usuario->id ?? ''),
+                'password' => ($request->isMethod('post') ? 'required|' : '') . 'nullable|min:6',
+                'permissions.*' => 'exists:permissions,id', // Garantir que os IDs das permissões sejam válidos
             ]);
-    
+
             $usuario->update([
                 'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
                 'password' => $request->filled('password') ? Hash::make($validatedData['password']) : $usuario->password,
             ]);
-    
+
             if ($request->has('permissions')) {
                 $usuario->syncPermissions($validatedData['permissions']);
             }
-    
+
             SweetAlert::success('Usuário atualizado com sucesso!', 'Sucesso');
             return redirect()->route('usuarios.index');
         } catch (\Exception $e) {
@@ -121,5 +126,4 @@ class UsuarioController extends Controller
             return redirect()->back()->withInput()->withErrors($e->getMessage());
         }
     }
-    
 }

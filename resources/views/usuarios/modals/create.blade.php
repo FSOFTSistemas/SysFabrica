@@ -1,37 +1,88 @@
-<div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="createUserModalLabel">Criar Novo Usuário</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="{{ route('usuarios.store') }}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nome</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Senha</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="permissions" class="form-label">Permissões</label>
-                        <select name="permissions[]" id="permissions" class="form-control" multiple>
-                           
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                </div>
-            </form>
+@extends('adminlte::page')
+
+@section('title', 'Criar Novo Usuário')
+
+@section('content_header')
+    <h1 class="m-0 text-dark">Criar Novo Usuário</h1>
+@stop
+
+@section('content')
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Novo Usuário</h3>
         </div>
+        <!-- /.card-header -->
+
+        <form action="{{ route('usuarios.store') }}" method="POST">
+            @csrf
+            <div class="card-body">
+                <!-- Nome -->
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" class="form-control" id="name" name="name"
+                            placeholder="Digite o nome do usuário" required>
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        </div>
+                        <input type="email" class="form-control" id="email" name="email"
+                            placeholder="Digite o email do usuário" required>
+                    </div>
+                </div>
+
+                <!-- Senha -->
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        </div>
+                        <input type="password" class="form-control" id="password" name="password"
+                            placeholder="Digite a senha" required>
+                    </div>
+                </div>
+
+                <!-- Permissões -->
+                <div class="form-group">
+                    <label for="permissions">Permissões</label>
+                    <select class="js-example-basic-multiple w-100" name="permission[]" multiple="multiple">
+                        @foreach ($permissions as $permission)
+                            <option value="{{ $permission->id }}">{{ $permission->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+                <a href="{{ route('usuarios.index') }}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
     </div>
-</div>
+@stop
+
+@section('css')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+@stop
+
+@section('js')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
+    </script>
+@stop

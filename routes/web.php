@@ -11,6 +11,8 @@ use App\Http\Controllers\ReceitaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VendaController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Auth\Middleware\Authorize;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,7 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('produtos', ProdutoController::class);
     Route::resource('estoques', EstoqueController::class);
     Route::resource('vendas', VendaController::class);
-    Route::resource('empresas', EmpresaController::class);
+    Route::resource('empresas', EmpresaController::class)->middleware('role:fsoft');
     Route::resource('enderecos', EnderecoController::class);
     Route::resource('usuarios', UsuarioController::class);
     Route::get('endereco/{cep}', [EnderecoController::class, 'buscarEnderecoPorCep'])->name('buscarCep');
@@ -38,6 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('receitas', ReceitaController::class)->except(['index']);
     Route::get('company', [EmpresaController::class, 'getcompany'])->name('company');
     Route::put('company/update', [EmpresaController::class, 'updateCompany'])->name('updateCompany');
+
+    
 });
 
 require __DIR__ . '/auth.php';
