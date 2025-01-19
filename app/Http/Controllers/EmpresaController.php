@@ -63,7 +63,7 @@ class EmpresaController extends Controller
         } catch (\Exception $e) {
             dd($e->getMessage());
             DB::rollBack();
-            Sweetalert::error('Empresa criada com sucesso!', 'Erro');
+            Sweetalert::error('Erro ao criar empresa', 'Erro');
             return redirect()->back()->withInput()->withErrors('error', $e->getMessage());
         }
     }

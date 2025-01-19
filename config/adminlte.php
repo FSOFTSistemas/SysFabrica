@@ -337,6 +337,13 @@ return [
             'can' => 'visualizar venda',
         ],
         [
+            'text' => 'Despesas Fixas',
+            'url' => '/despesas',
+            'icon' => 'fas fa-fw fa-file-invoice-dollar',
+            'label_color' => 'info',
+            'can' => 'visualizar usuario',
+        ],
+        [
             'text' => 'Empresa',
             'url' => '/company',
             'icon' => 'fas fa-fw fa-building',
