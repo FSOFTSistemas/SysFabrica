@@ -50,7 +50,6 @@ class EstoqueController extends Controller
             Sweetalert::success('Estoque criado com sucesso!', 'Sucesso');
             return redirect()->route('estoques.index');
         } catch (\Exception $e) {
-            dd($e->getMessage());
             Sweetalert::error('Erro ao criar estoque!', $e->getMessage());
             return redirect()->back()->withInput();
         }
