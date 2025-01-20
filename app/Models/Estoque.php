@@ -26,4 +26,9 @@ class Estoque extends Model
     {
         return $this->belongsTo(Empresa::class);
     }
+
+    public function scopeDaEmpresa($query, $empresaId)
+    {
+        return $query->where('empresa_id', $empresaId);
+    }
 }

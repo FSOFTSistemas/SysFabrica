@@ -32,7 +32,8 @@
                 <th>Preço Custo</th>
                 <th>Preço Venda</th>
                 <th>Status</th>
-                <th>Ações</th>
+                <th>Insumo</th>
+                <th class="text-center">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -42,10 +43,18 @@
                     <td>R$ {{ number_format($produto->precocusto, 2, ',', '.') }}</td>
                     <td>R$ {{ number_format($produto->precoVenda, 2, ',', '.') }}</td>
                     <td>{{ $produto->status }}</td>
-                    <td>
+                    <td><span class="badge 
+                        @if ($produto->insumo === 'Sim') bg-success 
+                        @elseif ($produto->insumo === 'Não') bg-danger 
+                        @else bg-secondary @endif">
+                        {{ $produto->insumo }}
+                    </span></td>
+                    <td class="text-end">
+                        @if($produto->insumo === 'Nao')
                         <a href="{{ route('receitas.index', ['produto_id' => $produto->id]) }}" class="btn btn-info btn-sm">
                             <i class="fas fa-cogs"></i>
                         </a>
+                        @endif
                         <!-- Botão Visualizar -->
                         <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
                             data-bs-target="#viewProdutoModal{{ $produto->id }}">

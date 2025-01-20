@@ -4,62 +4,70 @@ namespace App\Http\Controllers;
 
 use App\Models\DespesaFixa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Wavey\Sweetalert\Sweetalert;
 
 class DespesaFixaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $despesasFixas = DespesaFixa::where('empresa_id', Auth::user()->empresa_id)->get();
+        return view('despesas.index', compact('despesasFixas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'descricao' => 'required|string|max:255',
+                'valor' => 'required|numeric|min:0',
+            ]);
+
+            $validated['empresa_id'] = Auth::user()->empresa_id;
+            $despesaFixa = DespesaFixa::create($validated);
+
+            Sweetalert::success('Despesa cadastrada com sucesso!', 'Sucesso');
+            return redirect()->route('despesas.index')->with('success', 'Despesa criada com sucesso !');
+        } catch (\Exception $e) {
+            Sweetalert::error('Erro ao criar despesa!', 'Erro');
+            return redirect()->back()->withInput()->withErrors('error', $e->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(DespesaFixa $despesaFixa)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $despesaFixa = DespesaFixa::findOrFail($id);
+
+            $validated = $request->validate([
+                'descricao' => 'sometimes|required|string|max:255',
+                'valor' => 'sometimes|required|numeric|min:0',
+            ]);
+
+            $validated['empresa_id'] = Auth::user()->empresa_id;
+            $despesaFixa->update($validated);
+
+            Sweetalert::success('Despesa atualizada com sucesso!', 'Sucesso');
+            return redirect()->route('despesas.index')->with('success', 'Despesa atualizada com sucesso !');
+        } catch (\Exception $e) {
+            Sweetalert::error('Erro ao atualziar despesa!', 'Erro');
+            return redirect()->back()->withInput()->withErrors('error', $e->getMessage());
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(DespesaFixa $despesaFixa)
+    public function destroy($id)
     {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, DespesaFixa $despesaFixa)
-    {
-        //
-    }
+        try {
+            $despesaFixa = DespesaFixa::findOrFail($id);
+            $despesaFixa->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(DespesaFixa $despesaFixa)
-    {
-        //
+            Sweetalert::success('Despesa deletada com sucesso!', 'Sucesso');
+            return redirect()->route('despesas.index')->with('success', 'Despesa atualizada com sucesso !');
+
+        } catch (\Exception $e) {
+            Sweetalert::error('Erro ao deletar despesa!', 'Erro');
+            return redirect()->back()->withInput()->withErrors('error', $e->getMessage());
+        }
     }
 }

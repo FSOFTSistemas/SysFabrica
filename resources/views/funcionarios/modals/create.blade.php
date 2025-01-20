@@ -117,6 +117,7 @@
 @section('js')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#telefone').mask('(00) 00000-0000');
@@ -135,7 +136,6 @@
                 .then(response => response.json())
                 .then(data => {
                     if (!data.erro) {
-                        console.log(data);
                         $('#logradouro').val(data.logradouro);
                         $('#cidade').val(data.localidade);
                         $('#estado').val(data.uf);
@@ -151,4 +151,53 @@
                 });
         });
     </script>
+        <script>
+            $(document).ready(function () {
+                $('#telefone').mask('(00) 00000-0000');
+        
+                $('#formEndereco').on('submit', function (e) {
+                    e.preventDefault(); 
+        
+                    const form = $(this);
+        
+                    $.ajax({
+                        url: form.attr('action'), 
+                        method: 'POST',          
+                        data: form.serialize(),  
+                        success: function (response) {
+                            console.log(response);
+                            if (response.success) {
+                                $('#endereco_id').append(
+                                    new Option(
+                                        `${response.endereco.logradouro}, ${response.endereco.numero} - ${response.endereco.bairro}`,
+                                        response.endereco.id,
+                                        true,  
+                                        true
+                                    )
+                                );
+        
+                                alert(response.message || 'Endereço salvo com sucesso!');
+        
+                                $('#enderecoModal').modal('hide');
+                                $('.modal-backdrop').remove();
+                                form[0].reset();
+                            } else {
+                                alert(response.message || 'Erro ao salvar o endereço.');
+                            }
+                        },
+                        error: function (xhr) {
+                            const errors = xhr.responseJSON?.errors;
+                            let message = xhr.responseJSON?.message || 'Erro ao salvar o endereço.';
+        
+                            if (errors) {
+                                message += '\n' + Object.values(errors).map((err) => `- ${err}`).join('\n');
+                            }
+        
+                            alert(message);
+                            console.error(message);
+                        }
+                    });
+                });
+            });
+        </script>
 @stop

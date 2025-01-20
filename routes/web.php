@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\DespesaFixaController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\EstoqueController;
 use App\Http\Controllers\FuncionarioController;
+use App\Http\Controllers\OrdemProducaoController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceitaController;
@@ -31,9 +33,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('funcionarios', FuncionarioController::class);
     Route::resource('produtos', ProdutoController::class);
     Route::resource('estoques', EstoqueController::class);
+    Route::resource('producao', OrdemProducaoController::class);
     Route::resource('vendas', VendaController::class);
-    Route::resource('empresas', EmpresaController::class)->middleware('role:fsoft');
+    Route::resource('empresas', EmpresaController::class);
     Route::resource('enderecos', EnderecoController::class);
+    Route::resource('despesas', DespesaFixaController::class);
     Route::resource('usuarios', UsuarioController::class);
     Route::get('endereco/{cep}', [EnderecoController::class, 'buscarEnderecoPorCep'])->name('buscarCep');
     Route::get('/receitas/{produto_id}', [ReceitaController::class, 'index'])->name('receitas.index');

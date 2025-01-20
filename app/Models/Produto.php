@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Produto extends Model
 {
-    
+
     use HasFactory;
 
     protected $fillable = [
@@ -44,5 +44,19 @@ class Produto extends Model
     public function getInsumoAttribute($value)
     {
         return ucfirst($value);
+    }
+    public function scopeDaEmpresa($query, $empresaId)
+    {
+        return $query->where('empresa_id', $empresaId);
+    }
+
+    public function receitas()
+    {
+        return $this->hasMany(Receita::class, 'produto_id');
+    }
+
+    public function ingredientes()
+    {
+        return $this->hasMany(Receita::class, 'ingrediente_id');
     }
 }

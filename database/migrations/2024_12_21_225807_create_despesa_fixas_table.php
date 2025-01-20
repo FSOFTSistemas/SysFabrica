@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('despesas_fixas', function (Blueprint $table) {
+        Schema::create('despesa_fixas', function (Blueprint $table) {
             $table->id();
             $table->string('descricao');
             $table->float('valor', 8, 2);

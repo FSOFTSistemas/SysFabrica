@@ -1,17 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', 'Gerenciamento de Receitas')
+@section('title', 'Gerenciamento de Despesas Fixas')
 
 @section('content_header')
-    
+
 @stop
 
 @section('content')
-<h6>Receitas do Produto {{ $produto->descricao}} </h6>
     <div class="row mb-3">
         <div class="col">
             <!-- Botão para abrir o modal de criação -->
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createReceitaModal">Adicionar igrediente</button>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createDespesaModal">+ Nova Despesa</button>
         </div>
     </div>
 
@@ -23,48 +22,47 @@
             ['responsivePriority' => 3, 'targets' => 2],
             ['responsivePriority' => 4, 'targets' => -1],
         ],
-        'itemsPerPage' => 10,
+        'itemsPerPage' => 30,
         'showTotal' => false,
-        'valueColumnIndex' => 4,
+        'valueColumnIndex' => 0,
     ])
         <thead class="table-primary">
             <tr>
-                <th>Ingrediente</th>
-                <th>Quantidade</th>
+                <th class="w-50">Descrição</th>
+                <th>Valor</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($receitas as $receita)
+            @foreach ($despesasFixas as $despesa)
                 <tr>
-                    <td>{{ $receita->produto->descricao }}</td>
-                    <td>{{ number_format($receita->qtd, 2, ',', '.') }}</td>
+                    <td>{{ $despesa->descricao }}</td>
+                    <td>{{ number_format($despesa->valor, 2, ',', '.') }}</td>
                     <td>
                         <!-- Botão Editar -->
                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                            data-bs-target="#editReceitaModal{{ $receita->id }}">
+                            data-bs-target="#editDespesaModal{{ $despesa->id }}">
                             ✏️
                         </button>
                         <!-- Botão Excluir -->
                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                            data-bs-target="#deleteReceitaModal{{ $receita->id }}">
+                            data-bs-target="#deleteDespesaModal{{ $despesa->id }}">
                             🗑️
                         </button>
                     </td>
                 </tr>
 
-               
-                <!-- Modal Editar Receita -->
-                @include('receitas.modals.edit', ['receita' => $receita])
+                <!-- Modal Editar -->
+                @include('despesas.modals.edit', ['despesa' => $despesa])
 
-                <!-- Modal Excluir Receita -->
-                @include('receitas.modals.delete', ['receita' => $receita])
+                <!-- Modal Excluir -->
+                @include('despesas.modals.delete', ['despesa' => $despesa])
             @endforeach
         </tbody>
     @endcomponent
 
-    <!-- Modal Criar Receita -->
-    @include('receitas.modals.create')
+    <!-- Modal Criar -->
+    @include('despesas.modals.create')
 
 @stop
 

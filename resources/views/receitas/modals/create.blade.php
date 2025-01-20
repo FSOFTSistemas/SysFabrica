@@ -10,14 +10,19 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="descricao">Descrição da Receita</label>
-                        <input type="text" id="descricao" name="descricao" class="form-control" required>
+                        <label for="ingrediente_id">Selecione o ingrediente</label>
+                        <select name="ingrediente_id" id="ingrediente_id" class="form-control" required>
+                            <option value="#">Selecione o ingrediente</option>
+                            @foreach($ingredientes as $ingrediente)
+                                <option value="{{ $ingrediente->id }}">{{ $ingrediente->descricao }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-group mt-2">
-                        <label for="qtd">Quantidade</label>
+                        <label for="qtd">Quantidade(kg)</label>
                         <input type="number" id="qtd" name="qtd" class="form-control" required step="0.01" min="0">
                     </div>
-                    <input type="text" id="produto_id" name="produto_id" value="{{ $produto->id }}" hidden>
+                    <input type="text" name="produto_id" id="produto_id" value="{{ $produto->id }}">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>

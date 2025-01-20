@@ -323,6 +323,13 @@ return [
             'can' => 'visualizar produto',
         ],
         [
+            'text' => 'Ordem de Produção',
+            'url' => '/producao',
+            'icon' => 'fas fa-fw fa-industry',
+            'label_color' => 'primary',
+            'can' => 'visualizar producao',
+        ],
+        [
             'text' => 'Estoque',
             'url' => '/estoques',
             'icon' => 'fas fa-fw fa-warehouse',
@@ -335,6 +342,13 @@ return [
             'icon' => 'fas fa-fw fa-shopping-cart',
             'label_color' => 'success',
             'can' => 'visualizar venda',
+        ],
+        [
+            'text' => 'Despesas Fixas',
+            'url' => '/despesas',
+            'icon' => 'fas fa-fw fa-file-invoice-dollar',
+            'label_color' => 'info',
+            'can' => 'visualizar usuario',
         ],
         [
             'text' => 'Empresa',
