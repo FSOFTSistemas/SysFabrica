@@ -2,7 +2,7 @@
     $uniqueId = 'myTable_' . uniqid();
 @endphp
 
-<table id="{{ $uniqueId }}" style="width: 100%">
+<table id="{{ $uniqueId }}" class="w-100">
     {{ $slot }}
     @if (isset($showTotal) && $showTotal)
         <tfoot>
