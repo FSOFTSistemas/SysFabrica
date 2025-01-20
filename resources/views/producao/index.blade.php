@@ -10,7 +10,7 @@
     <div class="row mb-3">
         <div class="col">
             <!-- Botão para abrir o modal de criação -->
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createOrdemModal">+ Nova Ordem de
+            <button class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#createOrdemModal">+ Nova Ordem de
                 Produção</button>
         </div>
     </div>

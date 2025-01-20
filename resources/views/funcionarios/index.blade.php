@@ -9,7 +9,7 @@
 @section('content')
     <div class="row mb-2">
         <div class="col">
-            <a class="btn btn-primary" href="{{ route('funcionarios.create') }}">
+            <a class="btn btn-success float-end" href="{{ route('funcionarios.create') }}">
                 <i class="fas fa-plus"></i> Novo Funcionário
             </a>
         </div>
