@@ -9,7 +9,7 @@
 @section('content')
     <div class="row" style="margin-bottom: 2%">
         <div class="col">
-            <a class="btn btn-primary" href="{{ route('empresas.create') }}">+ Nova Empresa</a>
+            <a class="btn btn-success float-end" href="{{ route('empresas.create') }}">+ Nova Empresa</a>
         </div>
     </div>
 
