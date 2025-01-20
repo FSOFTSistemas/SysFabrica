@@ -18,7 +18,7 @@ class OrdemProducaoController extends Controller
     public function index()
     {
         $funcionarios = Funcionario::daEmpresa(Auth::user()->empresa_id)->get();
-        $produtos = Produto::daEmpresa(Auth::user()->empresa_id)->get();
+        $produtos = Produto::where('insumo', Produto::INSUMO_NAO)->daEmpresa(Auth::user()->empresa_id)->get();
         $ordens = OrdemProducao::with('funcionario', 'produto', 'empresa')->daEmpresa(Auth::user()->empresa_id)->get();
         return view('producao.index', compact('ordens', 'funcionarios', 'produtos'));
     }
@@ -42,6 +42,7 @@ class OrdemProducaoController extends Controller
                 'funcionario_id' => 'required|exists:funcionarios,id',
                 'produto_id' => 'required|exists:produtos,id',
                 'producao_estimada' => 'required|integer|min:1',
+                'producao_real' => 'required',
                 'status' => 'required|string',
             ]);
 
@@ -59,32 +60,37 @@ class OrdemProducaoController extends Controller
 
     private function baixarEstoqueDeInsumos($produtoId, $quantidadeProduzida)
     {
-        // Busca a receita do produto produzido
-        $receitas = Receita::where('produto_id', $produtoId)->get();
 
-        foreach ($receitas as $receita) {
-            $insumo = Produto::find($receita->produto_id);
+        try {
 
-            // Verifica se o produto é um insumo
-            if ($insumo->insumo === Produto::INSUMO_SIM) {
-                $estoque = Estoque::where('produto_id', $receita->produto_id)->first();
+            // Busca a receita do produto produzido
+            $receitas = Receita::where('produto_id', $produtoId)->get();
 
-                if ($estoque) {
-                    // Calcula a quantidade a ser descontada com base na quantidade produzida
-                    $quantidadeBaixa = $receita->qtd * $quantidadeProduzida;
+            foreach ($receitas as $receita) {
+                $insumo = Produto::find($receita->ingrediente_id);
 
-                    if ($estoque->estoque_atual < $quantidadeBaixa) {
-                        throw new \Exception("Estoque insuficiente para o insumo {$insumo->descricao}");
+                // Verifica se o produto é um insumo
+                if ($insumo->insumo === 'Sim') {
+                    $estoque = Estoque::where('produto_id', $receita->produto_id)->first();
+                    if ($estoque) {
+                        // Calcula a quantidade a ser descontada com base na quantidade produzida
+                        $quantidadeBaixa = $receita->qtd * $quantidadeProduzida;
+
+                        // if ($estoque->estoque_atual < $quantidadeBaixa) {
+                        //     throw new \Exception("Estoque insuficiente para o insumo {$insumo->descricao}");
+                        // }
+
+                        // Atualiza o estoque
+                        $estoque->estoque_atual -= $quantidadeBaixa;
+                        $estoque->saidas += $quantidadeBaixa;
+                        $estoque->save();
+                    } else {
+                        throw new \Exception("Estoque do insumo {$insumo->descricao} não encontrado");
                     }
-
-                    // Atualiza o estoque
-                    $estoque->estoque_atual -= $quantidadeBaixa;
-                    $estoque->saidas += $quantidadeBaixa;
-                    $estoque->save();
-                } else {
-                    throw new \Exception("Estoque do insumo {$insumo->descricao} não encontrado");
                 }
             }
+        } catch (\Exception $e) {
+            throw $e;
         }
     }
 

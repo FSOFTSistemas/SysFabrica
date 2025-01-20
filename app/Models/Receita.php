@@ -10,20 +10,26 @@ class Receita extends Model
     use HasFactory;
 
     protected $fillable = [
-        'descricao',
         'qtd',
         'produto_id',
+        'ingrediente_id',
     ];
 
     /**
      * Relacionamento com o modelo Produto
      */
-    public function produto()
-    {
-        return $this->belongsTo(Produto::class);
-    }
+
     public function scopeDaEmpresa($query, $empresaId)
     {
         return $query->where('empresa_id', $empresaId);
+    }
+    public function produto()
+    {
+        return $this->belongsTo(Produto::class, 'produto_id');
+    }
+
+    public function ingrediente()
+    {
+        return $this->belongsTo(Produto::class, 'ingrediente_id');
     }
 }

@@ -10,7 +10,8 @@
     <div class="row mb-3">
         <div class="col">
             <!-- Botão para abrir o modal de criação -->
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createOrdemModal">+ Nova Ordem de Produção</button>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createOrdemModal">+ Nova Ordem de
+                Produção</button>
         </div>
     </div>
 
@@ -73,7 +74,7 @@
     @endcomponent
 
     <!-- Modal Criar -->
-    @include('producao.modals.create',['funcionarios' => $funcionarios])
+    @include('producao.modals.create', ['funcionarios' => $funcionarios])
 
 @stop
 
@@ -83,4 +84,5 @@
             $('.select2').select2();
         });
     </script>
+    
 @stop

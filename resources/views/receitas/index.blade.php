@@ -29,18 +29,16 @@
     ])
         <thead class="table-primary">
             <tr>
-                <th>Descrição</th>
+                <th>Ingrediente</th>
                 <th>Quantidade</th>
-                <th>Produto</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($receitas as $receita)
                 <tr>
-                    <td>{{ $receita->descricao }}</td>
-                    <td>{{ number_format($receita->qtd, 2, ',', '.') }}</td>
                     <td>{{ $receita->produto->descricao }}</td>
+                    <td>{{ number_format($receita->qtd, 2, ',', '.') }}</td>
                     <td>
                         <!-- Botão Editar -->
                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"

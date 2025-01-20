@@ -14,10 +14,11 @@ class ReceitaController extends Controller
      */
     public function index($produto_id)
     {
-        $produto = Produto::find($produto_id); 
+        $ingredientes = Produto::find($produto_id)->where('insumo', 'sim')->get(); 
+        $produto = Produto::find($produto_id);
         $receitas = Receita::where('produto_id', $produto_id)->get(); 
 
-        return view('receitas.index', compact('produto', 'receitas'));
+        return view('receitas.index', compact('produto', 'ingredientes', 'receitas'));
     }
 
     /**
@@ -27,9 +28,9 @@ class ReceitaController extends Controller
     {
         try {
             $request->validate([
-                'descricao' => 'required|string|max:255',
                 'qtd' => 'required|numeric',
                 'produto_id' => 'required|exists:produtos,id',
+                'ingrediente_id' => 'required',
             ]);
 
             $receita = Receita::create($request->all());
@@ -37,7 +38,6 @@ class ReceitaController extends Controller
             Sweetalert::success('Sucesso', 'Ingrediente cadastrado com sucesso!');
             return redirect()->route('receitas.index',['produto_id' => $request['produto_id']]);
         } catch (\Exception $e) {
-            dd($e->getMessage());
             SweetAlert::error('Erro', 'Falha ao cadastrar ingrediente: ' . $e->getMessage());
             return back();
         }

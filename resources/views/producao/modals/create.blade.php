@@ -33,16 +33,24 @@
                     <!-- Produção Estimada -->
                     <div class="mb-3">
                         <label for="producao_estimada" class="form-label">Produção Estimada</label>
-                        <input type="number" step="0.01" name="producao_estimada" id="producao_estimada" 
-                            class="form-control" required>
+                        <input type="text" step="0.01" name="producao_estimada" id="producao_estimada" 
+                            class="form-control" required placeholder="0.00" oninput="validateFloat(this)">
                     </div>
+
+                     <!-- Produção real -->
+                     <div class="mb-3">
+                        <label for="producao_real" class="form-label">Produção Real</label>
+                        <input type="text" step="0.01" name="producao_real" id="producao_real"
+                            class="form-control" required placeholder="0.00" oninput="validateFloat(this)">
+                    </div>
+
 
                     <!-- Status -->
                     <div class="mb-3">
                         <label for="status" class="form-label">Status</label>
                         <select name="status" id="status" class="form-control" required>
-                            <option value="executando">Executando</option>
                             <option value="conluido">Conluido</option>
+                            <option value="executando">Executando</option>
                             <option value="esperando">Esperando</option>
                         </select>
                     </div>
@@ -55,3 +63,9 @@
         </div>
     </div>
 </div>
+<script>
+    function validateFloat(input) {
+        // Permite apenas números e um único ponto
+        input.value = input.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+    }
+</script>
