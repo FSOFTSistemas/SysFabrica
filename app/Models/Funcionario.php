@@ -28,4 +28,9 @@ class Funcionario extends Model
     {
         return $this->belongsTo(Endereco::class);
     }
+
+    public function scopeDaEmpresa($query, $empresaId)
+    {
+        return $query->where('empresa_id', $empresaId);
+    }
 }

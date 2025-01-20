@@ -46,4 +46,9 @@ class Venda extends Model
     {
         return $this->hasMany(ItemVenda::class);
     }
+
+    public function scopeDaEmpresa($query, $empresaId)
+    {
+        return $query->where('empresa_id', $empresaId);
+    }
 }

@@ -323,6 +323,13 @@ return [
             'can' => 'visualizar produto',
         ],
         [
+            'text' => 'Ordem de Produção',
+            'url' => '/producao',
+            'icon' => 'fas fa-fw fa-industry',
+            'label_color' => 'primary',
+            'can' => 'visualizar producao',
+        ],
+        [
             'text' => 'Estoque',
             'url' => '/estoques',
             'icon' => 'fas fa-fw fa-warehouse',

@@ -27,4 +27,9 @@ class Endereco extends Model
     {
         return $this->hasMany(Empresa::class);
     }
+
+    public function scopeDaEmpresa($query, $empresaId)
+    {
+        return $query->where('empresa_id', $empresaId);
+    }
 }

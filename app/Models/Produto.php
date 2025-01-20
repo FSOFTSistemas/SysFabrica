@@ -45,4 +45,8 @@ class Produto extends Model
     {
         return ucfirst($value);
     }
+    public function scopeDaEmpresa($query, $empresaId)
+    {
+        return $query->where('empresa_id', $empresaId);
+    }
 }

@@ -22,4 +22,8 @@ class Receita extends Model
     {
         return $this->belongsTo(Produto::class);
     }
+    public function scopeDaEmpresa($query, $empresaId)
+    {
+        return $query->where('empresa_id', $empresaId);
+    }
 }

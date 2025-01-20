@@ -17,4 +17,9 @@ class FormaPagamento extends Model
     {
         return $this->hasMany(Venda::class, 'forma_pagamento_id');
     }
+
+    public function scopeDaEmpresa($query, $empresaId)
+    {
+        return $query->where('empresa_id', $empresaId);
+    }
 }

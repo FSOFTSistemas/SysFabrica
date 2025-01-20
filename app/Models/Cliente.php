@@ -34,4 +34,8 @@ class Cliente extends Model
     {
         return $this->hasMany(Venda::class);
     }
+    public function scopeDaEmpresa($query, $empresaId)
+    {
+        return $query->where('empresa_id', $empresaId);
+    }
 }

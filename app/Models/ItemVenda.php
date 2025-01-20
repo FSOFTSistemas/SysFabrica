@@ -27,4 +27,9 @@ class ItemVenda extends Model
     {
         return $this->belongsTo(Venda::class);
     }
+
+    public function scopeDaEmpresa($query, $empresaId)
+    {
+        return $query->where('empresa_id', $empresaId);
+    }
 }

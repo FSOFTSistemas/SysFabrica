@@ -12,9 +12,10 @@ class OrdemProducao extends Model
     protected $fillable = [
         'funcionario_id',
         'produto_id',
-        'qtd',
         'valor_unitario',
-        'producao_atendida',
+        'producao_estimada',
+        'producao_real',
+        'status',
         'empresa_id',
     ];
 
@@ -31,5 +32,10 @@ class OrdemProducao extends Model
     public function empresa()
     {
         return $this->belongsTo(Empresa::class);
+    }
+
+    public function scopeDaEmpresa($query, $empresaId)
+    {
+        return $query->where('empresa_id', $empresaId);
     }
 }
