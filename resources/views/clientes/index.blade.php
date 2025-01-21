@@ -7,11 +7,11 @@
 @stop
 
 @section('content')
-    <div class="row mb-2">
-        <div class="col">
-            <a class="btn btn-success float-end" href="{{ route('clientes.create') }}">+ Novo Cliente</a>
-        </div>
+
+    <div class="col">
+        <a class="btn btn-success float-end" href="{{ route('clientes.create') }}">+ Novo Cliente</a>
     </div>
+
 
     @component('components.data-table', [
         'responsive' => [

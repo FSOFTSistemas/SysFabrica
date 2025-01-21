@@ -44,7 +44,13 @@
                     <td>{{ $ordem->produto->descricao }}</td>
                     <td>{{ number_format($ordem->producao_estimada, 2, ',', '.') }}</td>
                     <td>{{ number_format($ordem->producao_real, 2, ',', '.') }}</td>
-                    <td>{{ ucfirst($ordem->sattus) }}</td>
+                    <td><span class="badge 
+                        @if ($ordem->status == 'conluido') bg-success 
+                        @elseif($ordem->status == 'executando') bg-warning 
+                        @elseif($ordem->status == 'esperando') bg-secondary 
+                        @else bg-light text-dark @endif">
+                            {{ ucfirst($ordem->status) }}
+                        </span></td>
                     <td>
                         <!-- Botão Visualizar -->
                         <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
@@ -84,5 +90,5 @@
             $('.select2').select2();
         });
     </script>
-    
+
 @stop

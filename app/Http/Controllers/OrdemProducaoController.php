@@ -71,18 +71,16 @@ class OrdemProducaoController extends Controller
 
                 // Verifica se o produto é um insumo
                 if ($insumo->insumo === 'Sim') {
-                    $estoque = Estoque::where('produto_id', $receita->produto_id)->first();
+                    $estoque = Estoque::where('produto_id', $receita->ingrediente_id)->first();
                     if ($estoque) {
-                        // Calcula a quantidade a ser descontada com base na quantidade produzida
-                        $quantidadeBaixa = $receita->qtd * $quantidadeProduzida;
 
                         // if ($estoque->estoque_atual < $quantidadeBaixa) {
                         //     throw new \Exception("Estoque insuficiente para o insumo {$insumo->descricao}");
                         // }
 
                         // Atualiza o estoque
-                        $estoque->estoque_atual -= $quantidadeBaixa;
-                        $estoque->saidas += $quantidadeBaixa;
+                        $estoque->estoque_atual -= $quantidadeProduzida;
+                        $estoque->saidas += $quantidadeProduzida;
                         $estoque->save();
                     } else {
                         throw new \Exception("Estoque do insumo {$insumo->descricao} não encontrado");
